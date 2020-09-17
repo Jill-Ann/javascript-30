@@ -71,7 +71,7 @@
     </div>
     <div class="item">
       <input type="checkbox">
-      <p>Check a lower item</p>
+      <p id="demo">Check a lower item</p>
     </div>
     <div class="item">
       <input type="checkbox">
@@ -95,7 +95,47 @@
     </div>
   </div>
 
-<script>
-</script>
+  <script>
+
+  const checkboxesNodeList = document.querySelectorAll('.item input');
+  const checkboxes = Array.from(checkboxesNodeList);
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('click', selectMultiple);
+  })
+
+  let alreadyClicked = false;
+  let secondClick;
+  let firstIndex;
+  let secondIndex;
+
+  function selectMultiple(e) {
+
+    alreadyClicked === true && e.shiftKey ? alreadyClicked = false : alreadyClicked = true;
+    console.log('first checkbox already clicked?' + alreadyClicked);
+
+    if (alreadyClicked === false && e.shiftKey) {
+      secondClick = true;
+      secondIndex = checkboxes.findIndex(item => item === this);
+      console.log('secondIndex: ' + secondIndex);
+    } else {
+      firstIndex = checkboxes.findIndex(item => item === this);
+      console.log('firstIndex: ' + firstIndex);
+    }
+
+    if (secondClick && e.shiftKey) {
+      if (secondIndex > firstIndex) {
+        for (let i = firstIndex; i<= secondIndex; i++) {
+          checkboxes[i].checked = true;
+        }
+      } else {
+        for (let i = firstIndex; i>= secondIndex; i--) {
+          checkboxes[i].checked = true;
+        }
+      }
+    }
+  }
+
+  </script>
 </body>
 </html>
